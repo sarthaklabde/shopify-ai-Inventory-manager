@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopify Product Status</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="./output.css" rel="stylesheet">
+    <link href="./main.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            padding: 0;
+        }
+        #logs {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <main class="h-screen flex justify-center items-center flex-col">
+        <button type="button" id="startDrafting" class="relative justify-center items-center px-[18px] py-[12px] bg-[#303030] rounded-xl gap-0.5 inline-flex">
+            <div class="text-white text-lg font-medium font-['SF Pro Text'] leading-4 break-words">Start Drafting</div>
+            <div class="absolute w-[94%] h-[89%] rotate-180 flex justify-center items-center z-10">
+                <div class="w-full h-full button-shine-overlay rounded-xl"></div>
+            </div>
+        </button>
+        <div id="logs"></div>
+    </main>
+      
+
+    <script>
+        const logsDiv = document.getElementById('logs');
+        const startButton = document.getElementById('startDrafting');
+
+        startButton.addEventListener('click', () => {
+            logsDiv.innerHTML = ''; // Clear previous logs
+            const eventSource = new EventSource('/logs');
+
+            eventSource.onmessage = (event) => {
+                // Display logs in real-time
+                const message = document.createElement('div');
+                message.textContent = event.data;
+                logsDiv.appendChild(message);
+                logsDiv.scrollTop = logsDiv.scrollHeight; // Auto-scroll to bottom
+            };
+
+            eventSource.addEventListener('CLOSE', () => {
+                // Close EventSource when the server signals completion
+                const message = document.createElement('div');
+                message.textContent = "Connection closed by the server.";
+                logsDiv.appendChild(message);
+                logsDiv.scrollTop = logsDiv.scrollHeight; // Auto-scroll to bottom
+                eventSource.close();
+            });
+
+            eventSource.onerror = () => {
+                const message = document.createElement('div');
+                message.textContent = "Error: Connection lost.";
+                logsDiv.appendChild(message);
+                logsDiv.scrollTop = logsDiv.scrollHeight; // Auto-scroll to bottom
+                eventSource.close();
+            };
+        });
+    </script>
+</body>
+</html>
