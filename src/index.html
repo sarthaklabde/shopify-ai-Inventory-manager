@@ -6,13 +6,19 @@
     <title>Shopify Product Status</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
     <link href="./output.css" rel="stylesheet">
     <link href="./main.css" rel="stylesheet">
     <style>
         body {
             font-family: "Inter", sans-serif;
             padding: 0;
+        }
+        p{
+            font-family: "JetBrains Mono", serif;
+            letter-spacing: 1px;
+            font-weight: 200;
+            font-size: 11px;
         }
         #logs {
             border: 1px solid #ccc;
@@ -26,7 +32,8 @@
 </head>
 <body>
     <main class="h-screen flex justify-center items-center flex-col bg-[#19181F]">
-        <button id="startDrafting" class="button-primary font-light">
+        <p class="text-white opacity-35 font-light mb-5">DRAFT OUT-OF-STOCK PRODUCTS</p>
+        <button id="startDrafting" class="button-primary font-light mb-5">
             Start Process
         </button>
         <div id="logs">
