@@ -1,6 +1,7 @@
 import express from 'express';
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
+import path from 'path';
 
 dotenv.config();
 
@@ -8,8 +9,10 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Serve static files from the "public" directory
-app.use(express.static('src'));
-
+app.use(express.static('public'));
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 // EventSource connection for logs
 app.get('/logs', (req, res) => {
     res.setHeader('Content-Type', 'text/event-stream');
